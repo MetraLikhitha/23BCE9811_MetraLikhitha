@@ -1,0 +1,214 @@
+Test 1:
+
+1)[JOINS] List the name of each employee along with their job title and department name.
+
+Query:
+SELECT e.name AS employee_name,
+j.job_title,
+d.dept_name
+FROM Employees e
+JOIN Jobs j
+    ON e.job_id = j.job_id
+JOIN Departments d
+    ON e.dept_id = d.dept_id;
+
+2)[SUBQUERY] Find all employees whose salary is higher than the average salary of the 'IT' department.
+
+Query:
+
+SELECT name, salary
+FROM Employees
+WHERE salary > (
+--Calculating Average--
+    SELECT AVG(salary)
+    FROM Employees
+    WHERE dept_id = (
+    SELECT dept_id    
+    FROM Departments
+    WHERE dept_name = 'IT'
+    )
+);
+
+3)[GROUP BY] Calculate the total salary expenditure for each department name (not ID).
+
+Query:
+-- Calculate total salary expenditure for each department name without using JOIN
+
+SELECT 
+(
+SELECT dept_name
+     FROM Departments d
+     WHERE d.dept_id = e.dept_id
+)
+ AS dept_name,
+     
+    SUM(salary) AS total_salary
+FROM Employees e
+GROUP BY dept_id;
+
+4)[SELF JOIN] Retrieve a list of employee names and their respective manager's names.
+
+Query:
+SELECT 
+    e.name AS employee_name,
+    m.name AS manager_name
+FROM Employees e
+-- We use join because self join is not getting executed in SQL
+JOIN Employees m
+ON e.manager_id = m.emp_id;
+
+5)[ORDER BY] Find the top 3 highest-paid employees and list them in descending order.
+
+Query:
+SELECT 
+name,
+salary
+FROM Employees
+ORDER BY salary DESC
+LIMIT 3;
+
+6)[JOINS + WHERE] Find all Developers working in the 'San Francisco' location.
+
+Query:
+SELECT 
+e.name,j.job_title,d.location
+FROM Employees e
+JOIN Jobs j
+    ON e.job_id = j.job_id
+JOIN Departments d
+    ON e.dept_id = d.dept_id
+WHERE j.job_title = 'Developer'
+AND d.location = 'San Francisco';
+
+7)[GROUP BY] Find the number of employees hired each year.
+
+Query:
+-- Find number of employees hired each year
+
+SELECT 
+YEAR(hire_date) AS hire_year,
+COUNT(emp_id) AS total_employees
+FROM Employees
+GROUP BY YEAR(hire_date);
+
+8)[HAVING] List job titles where the maximum salary of an employee in that role is less than 100,000.
+
+Query:
+SELECT 
+    j.job_title,
+    MAX(e.salary) AS max_salary
+FROM Employees e
+JOIN Jobs j
+    ON e.job_id = j.job_id
+GROUP BY j.job_title
+HAVING MAX(e.salary) < 100000;
+
+9)[SUBQUERY] Find the names of employees who work in the same department as 'David'.
+
+Query:
+-- Find employees working in the same department as David
+
+SELECT name
+FROM Employees
+WHERE dept_id = (
+    SELECT dept_id
+    FROM Employees
+    WHERE name = 'David'
+);
+
+10)[COMPLEX FILTER] Find employees who were hired between 2018 and 2020 and earn more than 60,000.
+
+Query:
+-- Find employees hired between 2018 and 2020
+-- and earning more than 60000
+
+SELECT 
+    name,
+    salary,
+    hire_date
+FROM Employees
+WHERE hire_date BETWEEN '2018-01-01' AND '2020-12-31'
+AND salary > 60000;
+
+11)[JOINS] Find the job title and salary of the employee with ID 504.
+
+Query:
+-- Find job title and salary of employee with ID 504
+
+SELECT 
+    j.job_title,
+    e.salary
+FROM Employees e
+JOIN Jobs j
+    ON e.job_id = j.job_id
+WHERE e.emp_id = 504;
+
+12)[SUBQUERY] List departments that do not have any 'Analysts'.
+
+Query:
+SELECT dept_name
+FROM Departments
+WHERE dept_id NOT IN (
+    SELECT e.dept_id
+    FROM Employees e
+    JOIN Jobs j
+        ON e.job_id = j.job_id
+    WHERE j.job_title = 'Analyst'
+);
+
+13)[AGGREGATION] Find the difference between the highest and lowest salary in the company.
+
+Query:
+SELECT 
+    (MAX(salary) - MIN(salary)) AS salary_range
+FROM Employees;
+
+14)[MULTI-TABLE JOIN] Show all department names even if they have no employees assigned to them.
+
+Query:
+SELECT 
+    d.dept_name,
+    e.name AS employee_name
+FROM Departments d
+LEFT JOIN Employees e
+    ON d.dept_id = e.dept_id;
+
+15)[LEFT JOIN] List all job titles and the number of employees currently holding that job.
+
+Query:
+SELECT 
+j.job_title,
+COUNT(e.emp_id) AS employee_count
+FROM Jobs j
+LEFT JOIN Employees e ON j.job_id = e.job_id
+GROUP BY j.job_id, j.job_title;
+
+16)[JOIN + LIKE] Find employees in the 'Finance' department whose names contain the letter 'i'.
+
+Query:
+SELECT 
+e.emp_id,e.name,d.dept_name
+FROM Employees e
+INNER JOIN Departments d ON e.dept_id = d.dept_id
+WHERE d.dept_name = 'Finance'
+  AND e.name LIKE '%i%';
+
+17)[MATH + GROUP BY] Calculate the 10% bonus amount for each employee and show the total bonus per department.
+
+Query:
+SELECT 
+d.dept_name,
+SUM(e.salary * 0.10) AS total_department_bonus
+FROM Employees e
+INNER JOIN Departments d ON e.dept_id = d.dept_id
+GROUP BY d.dept_id, d.dept_name;
+
+18)[JOINS] Find all employees who report to 'Charlie'.
+
+Query:
+SELECT e.emp_id, e.name
+FROM Employees e
+JOIN Employees m
+    ON e.manager_id = m.emp_id
+WHERE m.name = 'Charlie';
+
