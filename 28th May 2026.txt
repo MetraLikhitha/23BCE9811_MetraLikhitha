@@ -1,5 +1,5 @@
 use vitap
-
+switched to db vitap
 db.products.drop()
 true
 
