@@ -1,5 +1,5 @@
-db
-Vitcampus
+use vitap
+switched to db vitap
 show dbs
 admin   40.00 KiB
 config  36.00 KiB
