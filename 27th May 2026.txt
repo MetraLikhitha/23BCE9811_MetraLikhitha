@@ -1,5 +1,5 @@
-use vit
-switched to db books
+use vitap
+switched to db vitap
 
 $gte operator
 db.products.find({
