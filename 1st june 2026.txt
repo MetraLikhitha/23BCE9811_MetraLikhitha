@@ -54,6 +54,6 @@ desc grad;
 insert into grad values (104,'prakash',91);
 insert into grad values (107,'anna',92);
 insert into grad values (109,'isha',83);
-select * from grad; prakash  91
+select * from grad; 
 
 
