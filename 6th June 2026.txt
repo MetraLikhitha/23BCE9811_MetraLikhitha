@@ -1,0 +1,513 @@
+use Indexes
+switched to db Indexes
+
+use Indexes
+switched to db Indexes
+db.sales.insertMany([
+	{ "_id" : 1, "item" : "Americanos", "price" : 5, "size": "Short", "quantity" : 22, "date" : ISODate("2022-01-15T08:00:00Z") },
+	{ "_id" : 2, "item" : "Cappuccino", "price" : 6, "size": "Short","quantity" : 12, "date" : ISODate("2022-01-16T09:00:00Z") },
+	{ "_id" : 3, "item" : "Lattes", "price" : 15, "size": "Grande","quantity" : 25, "date" : ISODate("2022-01-16T09:05:00Z") },
+	{ "_id" : 4, "item" : "Mochas", "price" : 25,"size": "Tall", "quantity" : 11, "date" : ISODate("2022-02-17T08:00:00Z") },
+	{ "_id" : 5, "item" : "Americanos", "price" : 10, "size": "Grande","quantity" : 12, "date" : ISODate("2022-02-18T21:06:00Z") },
+	{ "_id" : 6, "item" : "Cappuccino", "price" : 7, "size": "Tall","quantity" : 20, "date" : ISODate("2022-02-20T10:07:00Z") },
+	{ "_id" : 7, "item" : "Lattes", "price" : 25,"size": "Tall", "quantity" : 30, "date" : ISODate("2022-02-21T10:08:00Z") },
+	{ "_id" : 8, "item" : "Americanos", "price" : 10, "size": "Grande","quantity" : 21, "date" : ISODate("2022-02-22T14:09:00Z") },
+	{ "_id" : 9, "item" : "Cappuccino", "price" : 10, "size": "Grande","quantity" : 17, "date" : ISODate("2022-02-23T14:09:00Z") },
+	{ "_id" : 10, "item" : "Americanos", "price" : 8, "size": "Tall","quantity" : 15, "date" : ISODate("2022-02-25T14:09:00Z")}
+]);
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': 1,
+    '1': 2,
+    '2': 3,
+    '3': 4,
+    '4': 5,
+    '5': 6,
+    '6': 7,
+    '7': 8,
+    '8': 9,
+    '9': 10
+  }
+}
+db.sales.getIndexes()
+[ { v: 2, key: { _id: 1 }, name: '_id_' } ]
+db.sales.find()
+{
+  _id: 1,
+  item: 'Americanos',
+  price: 5,
+  size: 'Short',
+  quantity: 22,
+  date: 2022-01-15T08:00:00.000Z
+}
+{
+  _id: 2,
+  item: 'Cappuccino',
+  price: 6,
+  size: 'Short',
+  quantity: 12,
+  date: 2022-01-16T09:00:00.000Z
+}
+{
+  _id: 3,
+  item: 'Lattes',
+  price: 15,
+  size: 'Grande',
+  quantity: 25,
+  date: 2022-01-16T09:05:00.000Z
+}
+{
+  _id: 4,
+  item: 'Mochas',
+  price: 25,
+  size: 'Tall',
+  quantity: 11,
+  date: 2022-02-17T08:00:00.000Z
+}
+{
+  _id: 5,
+  item: 'Americanos',
+  price: 10,
+  size: 'Grande',
+  quantity: 12,
+  date: 2022-02-18T21:06:00.000Z
+}
+{
+  _id: 6,
+  item: 'Cappuccino',
+  price: 7,
+  size: 'Tall',
+  quantity: 20,
+  date: 2022-02-20T10:07:00.000Z
+}
+{
+  _id: 7,
+  item: 'Lattes',
+  price: 25,
+  size: 'Tall',
+  quantity: 30,
+  date: 2022-02-21T10:08:00.000Z
+}
+{
+  _id: 8,
+  item: 'Americanos',
+  price: 10,
+  size: 'Grande',
+  quantity: 21,
+  date: 2022-02-22T14:09:00.000Z
+}
+{
+  _id: 9,
+  item: 'Cappuccino',
+  price: 10,
+  size: 'Grande',
+  quantity: 17,
+  date: 2022-02-23T14:09:00.000Z
+}
+{
+  _id: 10,
+  item: 'Americanos',
+  price: 8,
+  size: 'Tall',
+  quantity: 15,
+  date: 2022-02-25T14:09:00.000Z
+}
+
+db.sales.createIndex({item: 1})
+item_1
+db.sales.getIndexes()
+[
+  { v: 2, key: { _id: 1 }, name: '_id_' },
+  { v: 2, key: { item: 1 }, name: 'item_1' }
+]
+
+
+db.collection.getIndexes()
+
+db.sales.getIndexes()
+
+//Output
+[ { v: 2, key: { _id: 1 }, name: '_id_' } ]
+
+db.movies.find({
+   title: 'Pirates of Silicon Valley
+})
+
+//Output
+{ "title": "Pirates of Silicon Valley" }
+
+
+db.collection.explain()
+'Explainable(Indexes.collection)'
+db.movies.find({
+   title: 'Pirates of Silicon Valley'
+}).explain('executionStats')
+{
+    namespace: 'Indexes.movies',
+    parsedQuery: {
+      title: {
+        '$eq': 'Pirates of Silicon Valley'
+      }
+    },
+    indexFilterSet: false,
+    optimizationTimeMillis: 0,
+    maxIndexedOrSolutionsReached: false,
+    maxIndexedAndSolutionsReached: false,
+    maxScansToExplodeReached: false,
+    prunedSimilarIndexes: false,
+    winningPlan: {
+      isCached: false,
+      stage: 'EOF',
+      type: 'nonExistentNamespace'
+    },
+    rejectedPlans: []
+  },
+  executionStats: {
+    executionSuccess: true,
+    nReturned: 0,
+    executionTimeMillis: 0,
+    totalKeysExamined: 0,
+    totalDocsExamined: 0,
+    executionStages: {
+      isCached: false,
+      stage: 'EOF',
+      nReturned: 0,
+      executionTimeMillisEstimate: 0,
+      works: 1,
+      advanced: 0,
+      needTime: 0,
+      needYield: 0,
+      saveState: 0,
+      restoreState: 0,
+      isEOF: 1,
+      type: 'nonExistentNamespace'
+    }
+  },
+  queryShapeHash: '641208D24AF4D883BC579F1733226565E3AE45EBA7AF2EDE6F8A701FEB40DEBE',
+  command: {
+    find: 'movies',
+    filter: {
+      title: 'Pirates of Silicon Valley'
+    },
+    '$db': 'Indexes'
+  },
+  serverInfo: {
+    host: 'Likhitha',
+    port: 27017,
+    version: '8.3.2',
+    gitVersion: '89f54eb32e217d2f7bfcad50e5919f3033bb9611'
+  },
+  serverParameters: {
+    internalQueryFacetBufferSizeBytes: 104857600,
+    internalDocumentSourceGroupMaxMemoryBytes: 104857600,
+    internalQueryMaxBlockingSortMemoryUsageBytes: 104857600,
+    internalDocumentSourceSetWindowFieldsMaxMemoryBytes: 104857600,
+    internalQueryFacetMaxOutputDocSizeBytes: 104857600,
+    internalLookupStageIntermediateDocumentMaxSizeBytes: 104857600,
+    internalQueryProhibitBlockingMergeOnMongoS: 0,
+    internalQueryMaxAddToSetBytes: 104857600,
+    internalQueryFrameworkControl: 'trySbeRestricted',
+    internalQueryPlannerIgnoreIndexWithCollationForRegex: 1
+  },
+  ok: 1
+}
+db.movies.createIndex({title:1})
+title_1
+db.movies.getIndexes()
+[
+  { v: 2, key: { _id: 1 }, name: '_id_' },
+  { v: 2, key: { title: 1 }, name: 'title_1' }
+]
+db.movies.find({
+   title: 'Pirates of Silicon Valley'
+})
+
+//UNIQUE INDEX
+
+use uniqueIndex
+switched to db uniqueIndex
+db["uniqueIndex"].find()
+db.users.insertMany([
+   { email:  "john@test.com", name: "john"},
+   { email:  "jane@test.com", name: "jane"},
+]);
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6a241eb0711b58cbcc5f1206'),
+    '1': ObjectId('6a241eb0711b58cbcc5f1207')
+  }
+}
+db.users.createIndex({email:1},{unique:true});
+email_1
+
+db.users.insertOne(
+   { email:  "john@test.com", name: "johny"}
+);
+MongoServerError: E11000 duplicate key error collection: uniqueIndex.users index: email_1 dup key: { email: "john@test.com" }
+db.users.insertOne(
+   { email:  "john@test.com", name: "johny"}
+);
+
+db.users.drop()
+true
+
+db.users.insertMany([
+   { email:  "john@test.com", name: "john"},
+   { email:  "john@test.com", name: "johny"},
+   { email:  "jane@test.com", name: "jane"},
+])
+
+//output
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6a241f1a711b58cbcc5f120a'),
+    '1': ObjectId('6a241f1a711b58cbcc5f120b'),
+    '2': ObjectId('6a241f1a711b58cbcc5f120c')
+  }
+}
+db.users.createIndex({email: 1},{unique:true})
+MongoServerError[DuplicateKey]: Index build failed: b6bf6fb7-ddf3-4ccb-9704-ec41c2888db9: Collection uniqueIndex.users ( 44ee9797-adf0-4e48-8280-b3968978cd68 ) :: caused by :: E11000 duplicate key error collection: uniqueIndex.users index: email_1 dup key: { email: "john@test.com" }
+db.users.deleteOne({name:'johny', email: 'john@test.com'});
+
+//Output
+{
+  acknowledged: true,
+  deletedCount: 1
+}
+
+db.users.createIndex({email: 1},{unique:true})
+
+//Output
+email_1
+
+//Compound Index
+
+db.collection.createIndex({field1: 1, field2: 1}, {unique: true});
+
+//Output
+field1_1_field2_1
+
+db.locations.insertOne({
+	address: "Downtown San Jose, CA, USA",
+	lat: 37.335480,
+	long: -121.893028
+})
+
+//output
+{
+  acknowledged: true,
+  insertedId: ObjectId('6a241f58711b58cbcc5f120d')
+}
+
+db.locations.createIndex({
+	lat: 1,
+	long: 1
+},{ unique: true });
+
+//Output
+lat_1_long_1
+
+db.locations.insertOne({
+	address: "Dev Bootcamp, San Jose, CA, USA",
+	lat: 37.335480,
+	long: -122.893028
+})
+
+//Output
+{
+  acknowledged: true,
+  insertedId: ObjectId('6a241f6f711b58cbcc5f120e')
+}
+
+db.locations.insertOne({
+	address: "Central San Jose, CA, USA",
+	lat: 37.335480,
+	long: -121.893028
+})
+MongoServerError: E11000 duplicate key error collection: uniqueIndex.locations index: lat_1_long_1 dup key: { lat: 37.33548, long: -121.893028 }
+
+//individual Compound Index
+
+use CompoundIndex
+switched to db CompoundIndex
+db.movies.createIndex({ title: 1, year: 1 })
+
+//Output
+title_1_year_1
+
+db.movies.find({title: /valley/i, year: 2014}).explain('executionStats');
+{
+          title: 1,
+          year: 1
+        },
+        indexName: 'title_1_year_1',
+        isMultiKey: false,
+        multiKeyPaths: {
+          title: [],
+          year: []
+        },
+        isUnique: false,
+        isSparse: false,
+        isPartial: false,
+        indexVersion: 2,
+        direction: 'forward',
+        indexBounds: {
+          title: [
+            '["", {})',
+            '[/valley/i, /valley/i]'
+          ],
+          year: [
+            '[2014, 2014]'
+          ]
+        },
+        keysExamined: 0,
+        seeks: 1,
+        dupsTested: 0,
+        dupsDropped: 0,
+        peakTrackedMemBytes: 0
+      }
+    }
+  },
+  queryShapeHash: '2CF82125FA192EBA638863FDF48AC4D5845979E613D6D30CB24049D4DD00BFB6',
+  command: {
+    find: 'movies',
+    filter: {
+      title: BSONRegExp('valley', 'i'),
+      year: 2014
+    },
+    '$db': 'CompoundIndex'
+  },
+  serverInfo: {
+    host: 'Likhitha',
+    port: 27017,
+    version: '8.3.2',
+    gitVersion: '89f54eb32e217d2f7bfcad50e5919f3033bb9611'
+  },
+  serverParameters: {
+    internalQueryFacetBufferSizeBytes: 104857600,
+    internalDocumentSourceGroupMaxMemoryBytes: 104857600,
+    internalQueryMaxBlockingSortMemoryUsageBytes: 104857600,
+    internalDocumentSourceSetWindowFieldsMaxMemoryBytes: 104857600,
+    internalQueryFacetMaxOutputDocSizeBytes: 104857600,
+    internalLookupStageIntermediateDocumentMaxSizeBytes: 104857600,
+    internalQueryProhibitBlockingMergeOnMongoS: 0,
+    internalQueryMaxAddToSetBytes: 104857600,
+    internalQueryFrameworkControl: 'trySbeRestricted',
+    internalQueryPlannerIgnoreIndexWithCollationForRegex: 1
+  },
+  ok: 1
+}
+db.movies.find({year: 2014}).explain('executionStats');
+{
+    totalKeysExamined: 0,
+    totalDocsExamined: 0,
+    executionStages: {
+      isCached: false,
+      stage: 'COLLSCAN',
+      filter: {
+        year: {
+          '$eq': 2014
+        }
+      },
+      nReturned: 0,
+      executionTimeMillisEstimate: 0,
+      works: 1,
+      advanced: 0,
+      needTime: 0,
+      needYield: 0,
+      saveState: 0,
+      restoreState: 0,
+      isEOF: 1,
+      nss: 'CompoundIndex.movies',
+      direction: 'forward',
+      docsExamined: 0
+    }
+  },
+  queryShapeHash: 'B63173586C223993B8CD30F3A08A91526BF78B90C27BC90C0F6F440D4611B130',
+  command: {
+    find: 'movies',
+    filter: {
+      year: 2014
+    },
+    '$db': 'CompoundIndex'
+  },
+  serverInfo: {
+    host: 'Likhitha',
+    port: 27017,
+    version: '8.3.2',
+    gitVersion: '89f54eb32e217d2f7bfcad50e5919f3033bb9611'
+  },
+  serverParameters: {
+    internalQueryFacetBufferSizeBytes: 104857600,
+    internalDocumentSourceGroupMaxMemoryBytes: 104857600,
+    internalQueryMaxBlockingSortMemoryUsageBytes: 104857600,
+    internalDocumentSourceSetWindowFieldsMaxMemoryBytes: 104857600,
+    internalQueryFacetMaxOutputDocSizeBytes: 104857600,
+    internalLookupStageIntermediateDocumentMaxSizeBytes: 104857600,
+    internalQueryProhibitBlockingMergeOnMongoS: 0,
+    internalQueryMaxAddToSetBytes: 104857600,
+    internalQueryFrameworkControl: 'trySbeRestricted',
+    internalQueryPlannerIgnoreIndexWithCollationForRegex: 1
+  },
+  ok: 1
+}
+
+
+ //DROP INDEX
+
+use DropIndex
+switched to db DropIndex
+db["dropIndex"].find()
+
+db.movies.createIndex({year: 1})
+
+//Output
+year_1
+
+db.movies.getIndexes()
+[
+  { v: 2, key: { _id: 1 }, name: '_id_' },
+  { v: 2, key: { year: 1 }, name: 'year_1' }
+]
+db.movies.dropIndex('year_1')
+{ nIndexesWas: 2, ok: 1 }
+
+db.movies.getIndexes()
+
+//output
+[ { v: 2, key: { _id: 1 }, name: '_id_' } ]
+
+db.movies.createIndex({runtime: -1})
+
+//output
+runtime_-1
+db.movies.getIndexes()
+[
+  { v: 2, key: { _id: 1 }, name: '_id_' },
+  { v: 2, key: { runtime: -1 }, name: 'runtime_-1' }
+]
+
+db.movies.dropIndex({runtime: -1});
+{ nIndexesWas: 2, ok: 1 }
+db.movies.createIndex({year: 1})
+
+db.movies.createIndex({runtime: 1})
+
+runtime_1
+
+db.movies.getIndexes()
+[
+  { v: 2, key: { _id: 1 }, name: '_id_' },
+  { v: 2, key: { year: 1 }, name: 'year_1' },
+  { v: 2, key: { runtime: 1 }, name: 'runtime_1' }
+]
+
+db.movies.dropIndexes()
+{
+  nIndexesWas: 3,
+  msg: 'non-_id indexes dropped for collection',
+  ok: 1
+}
